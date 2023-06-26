@@ -7,7 +7,7 @@ import { Category } from './models/category.model';
 export class CategoriesResolver {
     constructor(private readonly categoriesService: CategoriesService) {}
 
-    @Query(returns => [Category])
+    @Query(returns => [Category], {name: 'categories'})
     getCategories(): Promise<Category[]> {
         return this.categoriesService.findAll();
     }
