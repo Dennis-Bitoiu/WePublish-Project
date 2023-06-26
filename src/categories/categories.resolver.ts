@@ -19,13 +19,18 @@ export class CategoriesResolver {
 
   @Query((returns) => Category, { name: 'category' })
   async getCategory(@Args() args: CategoriesArgs): Promise<Category> {
+    // Destructure ID from args
     const { id } = args;
+
+    // Await for the promise to resolve
     const category = await this.categoriesService.findOneById(id);
 
+    // If no category is found, throw an error
     if (!category) {
       throw new NotFoundException(id);
     }
 
+    // Otherwise return the category
     return category;
   }
 }
