@@ -1,0 +1,18 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Category {
+  id: String!
+  name: String!
+  slug: String!
+  iconUrl: String!
+  activeFrom: String!
+  activeUntil: String!
+  createdAt: String
+  updatedAt: String
+}
+
+type Query {
+  categories: [Category!]!
+}
