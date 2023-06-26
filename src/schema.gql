@@ -7,12 +7,13 @@ type Category {
   name: String!
   slug: String!
   iconUrl: String!
-  activeFrom: String!
-  activeUntil: String!
-  createdAt: String
-  updatedAt: String
+  activeFrom: String
+  activeUntil: String
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Query {
   categories: [Category!]!
+  category(id: String!): Category!
 }
