@@ -7,10 +7,10 @@ import { join } from 'path';
 import {CategoriesModule} from './categories/categories.module';
 
 @Module({
-  imports: [CategoriesModule, GraphQLModule.forRoot<ApolloDriverConfig>({
+  imports: [ GraphQLModule.forRoot<ApolloDriverConfig>({
     driver: ApolloDriver,
     autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-  }),],
+  }), CategoriesModule],
   controllers: [AppController],
   providers: [AppService],
 })
