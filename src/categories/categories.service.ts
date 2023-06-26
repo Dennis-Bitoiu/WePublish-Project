@@ -9,4 +9,8 @@ export class CategoriesService {
 
         return categories
     }
+
+    async findOneById(id: string): Promise<Category> {
+        return categories.find(category => category.id === id)
+    }
 }
