@@ -14,15 +14,15 @@ export class Category {
     @Field()
     iconUrl: string;
     
-    @Field()
+    @Field({nullable: true})
     activeFrom: string;
 
-    @Field()
+    @Field({nullable: true})
     activeUntil: string;
 
-    @Field({nullable: true})
+    @Field()
     createdAt?: string;
 
-    @Field({nullable: true})
+    @Field()
     updatedAt?: string;
 }
