@@ -80,16 +80,19 @@ export class PublicationsResolver {
     // If a publication with the same slug or ID already exists, throw an error
     // A publication can only be created if the slug and ID are unique
     if (existingPublication) {
-      throw new Error('Publication already exists');
+      throw new Error(
+        `Publication with slug: ${publicationInput.slug} and id: ${publicationInput.id} already exists`,
+      );
     }
 
     // Check if each category ID in the publicationInput exists
-    // A publication can only be created if all category IDs exist
-    for (const categoryID of publicationInput.categories) {
-      const category = await this.categoriesService.findOneById(categoryID);
-      if (!category) {
-        throw new NotFoundException(categoryID);
-      }
+    const categories = await this.categoriesService.findAllByIds(
+      publicationInput.categories,
+    );
+
+    // If the number of categories returned does not match the number of categories in the publicationInput, throw an error
+    if (categories.length !== publicationInput.categories.length) {
+      throw new Error('One or more categories do not exist');
     }
 
     const publication = await this.publicationsService.create(publicationInput);
