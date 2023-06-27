@@ -17,3 +17,16 @@ type Query {
   categories: [Category!]!
   category(id: String!): Category!
 }
+
+type Mutation {
+  createCategory(newCategoryData: NewCategoryInput!): Category!
+}
+
+input NewCategoryInput {
+  id: ID!
+  name: String!
+  slug: String!
+  iconUrl: String!
+  activeFrom: String
+  activeUntil: String
+}
