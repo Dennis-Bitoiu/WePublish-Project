@@ -13,9 +13,20 @@ type Category {
   updatedAt: String!
 }
 
+type Publication {
+  id: ID!
+  slug: String!
+  name: String!
+  coverUrl: String!
+  publishFrom: String!
+  publishUntil: String!
+  categories: [Category!]!
+}
+
 type Query {
   categories: [Category!]!
   category(id: String!): Category!
+  publications: [Publication!]!
 }
 
 type Mutation {
