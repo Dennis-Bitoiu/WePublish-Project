@@ -17,6 +17,12 @@ export class PublicationsService {
     return publication;
   }
 
+  async findOneBySlug(slug: String): Promise<Publication> {
+    const publication = publications.find((pub) => pub.slug === slug);
+
+    return publication;
+  }
+
   async create(publicationInput: NewPublicationInput) {
     const publication: Publication = {
       ...publicationInput,
