@@ -18,8 +18,14 @@ export class CategoriesService {
       ...createCategoryInput,
     };
 
+    const currentDate = new Date();
+
+    // Add createdAt and updatedAt fields
+    newCategory.createdAt = currentDate.toISOString().slice(0, 24);
+    newCategory.updatedAt = currentDate.toISOString().slice(0, 24);
+
     categories.push(newCategory);
-    console.log(categories);
+
     return newCategory;
   }
 }
