@@ -5,14 +5,30 @@ import { NewCategoryInput } from './dto/category.input';
 
 @Injectable()
 export class CategoriesService {
+  // Find all categories
   async findAll(): Promise<Category[]> {
     return categories;
   }
 
+  // Find all categories by their IDs
+  // @param ids Array of category IDs
+  async findAllByIds(ids: string[]) {
+    const categories: Category[] = [];
+
+    for (const id of ids) {
+      const category = await this.findOneById(id);
+      if (category) categories.push(category);
+    }
+    return categories;
+  }
+
+  // Find a category by its ID
+  // @param id Category ID
   async findOneById(id: string): Promise<Category> {
     return categories.find((category) => category.id === id);
   }
 
+  // Create a new category
   async create(createCategoryInput: NewCategoryInput): Promise<Category> {
     const newCategory: Category = {
       ...createCategoryInput,
