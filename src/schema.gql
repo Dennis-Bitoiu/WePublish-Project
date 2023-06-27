@@ -27,6 +27,7 @@ type Query {
   categories: [Category!]!
   category(id: String!): Category!
   publications: [Publication!]!
+  publication(id: ID!): Publication!
 }
 
 type Mutation {
