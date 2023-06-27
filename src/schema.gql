@@ -20,7 +20,7 @@ type Publication {
   coverUrl: String!
   publishFrom: String!
   publishUntil: String!
-  categories: [Category!]!
+  categories: [ID!]!
 }
 
 type Query {
