@@ -21,6 +21,6 @@ export class Publication {
   @Field()
   publishUntil: string;
 
-  @Field((type) => [Category])
-  categories: Category[];
+  @Field(() => [ID])
+  categories: string[];
 }
