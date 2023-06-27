@@ -33,6 +33,7 @@ type Query {
 
 type Mutation {
   createCategory(newCategoryData: NewCategoryInput!): Category!
+  createPublication(publicationInput: NewPublicationInput!): Publication!
 }
 
 input NewCategoryInput {
@@ -42,4 +43,14 @@ input NewCategoryInput {
   iconUrl: String!
   activeFrom: String
   activeUntil: String
+}
+
+input NewPublicationInput {
+  id: ID!
+  slug: String!
+  name: String!
+  coverUrl: String!
+  publishFrom: String!
+  publishUntil: String!
+  categories: [ID!]!
 }
