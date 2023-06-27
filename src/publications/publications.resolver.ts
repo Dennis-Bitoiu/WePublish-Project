@@ -46,25 +46,14 @@ export class PublicationsResolver {
     // Retrieve publication by ID
     const publication = await this.publicationsService.findOneById(id);
 
+    // If no publication is found, throw an error
     if (!publication) {
       throw new NotFoundException(id);
     }
 
-    // Create an empty array to store categories
-    const publicationCategories: Category[] = [];
-
-    // Loop through each category ID in the publication's categories array
-    for (const categoryID of publication.categories) {
-      // Find the category by ID using the findOneById service provided by the CategoriesService
-      const category: Category = await this.categoriesService.findOneById(
-        categoryID,
-      );
-
-      // If the category exists, push it to the publicationCategories array
-      if (category) {
-        publicationCategories.push(category);
-      }
-    }
+    // Retrieve all categories for the publication
+    const publicationCategories: Category[] =
+      await this.categoriesService.findAllByIds(publication.categories);
 
     return publicationCategories;
   }
@@ -96,6 +85,7 @@ export class PublicationsResolver {
     }
 
     const publication = await this.publicationsService.create(publicationInput);
+
     return publication;
   }
 }
