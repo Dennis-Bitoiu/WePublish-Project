@@ -1,8 +1,9 @@
-import { Query } from '@nestjs/graphql';
+import { Mutation, Query } from '@nestjs/graphql';
 import { NotFoundException } from '@nestjs/common';
 import { Args, Resolver } from '@nestjs/graphql';
 import { CategoriesService } from './categories.service';
 import { CategoriesArgs } from './dto/categories.args';
+import { NewCategoryInput } from './dto/category.input';
 import { Category } from './models/category.model';
 
 @Resolver((of) => Category)
@@ -31,6 +32,15 @@ export class CategoriesResolver {
     }
 
     // Otherwise return the category
+    return category;
+  }
+
+  @Mutation((returns) => Category)
+  async createCategory(
+    @Args('newCategoryData') newCategoryData: NewCategoryInput,
+  ): Promise<Category> {
+    const category = await this.categoriesService.create(newCategoryData);
+
     return category;
   }
 }
