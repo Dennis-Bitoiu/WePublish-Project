@@ -1,13 +1,18 @@
-import { Args, Resolver } from '@nestjs/graphql';
+import { Args, Parent, Resolver } from '@nestjs/graphql';
 import { NotFoundException } from '@nestjs/common';
 import { Mutation, Query } from '@nestjs/graphql';
 import { PublicationsService } from './publications.service';
 import { Publication } from './models/publication.model';
 import { PublicationsArgs } from './dto/publications.args';
+import { Category } from 'src/categories/models/category.model';
+import { CategoriesService } from 'src/categories/categories.service';
 
 @Resolver((of) => Publication)
 export class PublicationsResolver {
-  constructor(private readonly publicationsService: PublicationsService) {}
+  constructor(
+    private readonly publicationsService: PublicationsService,
+    private readonly categoriesService: CategoriesService,
+  ) {}
 
   @Query((returns) => [Publication], { name: 'publications' })
   async getPublications(): Promise<Publication[]> {
@@ -27,5 +32,39 @@ export class PublicationsResolver {
     }
 
     return publication;
+  }
+
+  // Retrieves all categories for a publication
+  @Query(() => [Category], { name: 'publicationCategories' })
+  async getPublicationCategories(
+    @Args() args: PublicationsArgs,
+  ): Promise<Category[]> {
+    // Destructure ID from args
+    const { id } = args;
+
+    // Retrieve publication by ID
+    const publication = await this.publicationsService.findOneById(id);
+
+    if (!publication) {
+      throw new NotFoundException(id);
+    }
+
+    // Create an empty array to store categories
+    const publicationCategories: Category[] = [];
+
+    // Loop through each category ID in the publication's categories array
+    for (const categoryID of publication.categories) {
+      // Find the category by ID using the findOneById service provided by the CategoriesService
+      const category: Category = await this.categoriesService.findOneById(
+        categoryID,
+      );
+
+      // If the category exists, push it to the publicationCategories array
+      if (category) {
+        publicationCategories.push(category);
+      }
+    }
+
+    return publicationCategories;
   }
 }
