@@ -73,6 +73,16 @@ export class PublicationsResolver {
   async createPublication(
     @Args('publicationInput') publicationInput: NewPublicationInput,
   ): Promise<Publication> {
+    const existingPublication: Publication =
+      (await this.publicationsService.findOneBySlug(publicationInput.slug)) ||
+      (await this.publicationsService.findOneById(publicationInput.id));
+
+    // If a publication with the same slug or ID already exists, throw an error
+    // A publication can only be created if the slug and ID are unique
+    if (existingPublication) {
+      throw new Error('Publication already exists');
+    }
+
     // Check if each category ID in the publicationInput exists
     // A publication can only be created if all category IDs exist
     for (const categoryID of publicationInput.categories) {
