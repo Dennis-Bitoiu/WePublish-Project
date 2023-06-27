@@ -4,6 +4,7 @@ import { Mutation, Query } from '@nestjs/graphql';
 import { PublicationsService } from './publications.service';
 import { Publication } from './models/publication.model';
 import { PublicationsArgs } from './dto/publications.args';
+import { NewPublicationInput } from './dto/publication.input';
 import { Category } from 'src/categories/models/category.model';
 import { CategoriesService } from 'src/categories/categories.service';
 
@@ -66,5 +67,22 @@ export class PublicationsResolver {
     }
 
     return publicationCategories;
+  }
+
+  @Mutation((returns) => Publication)
+  async createPublication(
+    @Args('publicationInput') publicationInput: NewPublicationInput,
+  ): Promise<Publication> {
+    // Check if each category ID in the publicationInput exists
+    // A publication can only be created if all category IDs exist
+    for (const categoryID of publicationInput.categories) {
+      const category = await this.categoriesService.findOneById(categoryID);
+      if (!category) {
+        throw new NotFoundException(categoryID);
+      }
+    }
+
+    const publication = await this.publicationsService.create(publicationInput);
+    return publication;
   }
 }
