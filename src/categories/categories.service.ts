@@ -51,4 +51,23 @@ export class CategoriesService {
 
     return newCategory;
   }
+
+  async removeOneById(id: string): Promise<Boolean> {
+    // Retrieve the category
+    const category = await this.findOneById(id);
+
+    // If the category doesn't exist, throw an error
+    if (!category) {
+      throw new Error("Category doesn't exist");
+    }
+
+    // Store the index of the category
+    const categoryIndex = categories.indexOf(category);
+
+    // Remove the category based on its index
+    categories.splice(categoryIndex, 1);
+
+    // Return success
+    return true;
+  }
 }
