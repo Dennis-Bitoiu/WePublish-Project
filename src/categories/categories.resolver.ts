@@ -1,5 +1,5 @@
 import { Mutation, Query } from '@nestjs/graphql';
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Args, Resolver } from '@nestjs/graphql';
 import { CategoriesService } from './categories.service';
 import { CategoriesArgs } from './dto/categories.args';
@@ -21,34 +21,46 @@ export class CategoriesResolver {
 
   @Query((returns) => Category, { name: 'category' })
   async getCategory(@Args() args: CategoriesArgs): Promise<Category> {
-    // Destructure ID from args
-    const { id } = args;
+    try {
+      // Destructure ID from args
+      const { id } = args;
 
-    // Await for the promise to resolve
-    const category = await this.categoriesService.findOneById(id);
+      // Await for the promise to resolve
+      const category = await this.categoriesService.findOneById(id);
 
-    // If no category is found, throw an error
-    if (!category) {
-      throw new NotFoundException(id);
+      return category;
+    } catch (error) {
+      // If category is not found
+      // Or any other error occurs in the proccess of finding the category
+      // Throw a new NotFoundException
+      throw new NotFoundException(error);
     }
-
-    // Otherwise return the category
-    return category;
   }
 
   @Mutation((returns) => Category)
   async createCategory(
     @Args('newCategoryData') newCategoryData: NewCategoryInput,
   ): Promise<Category> {
-    const category = await this.categoriesService.create(newCategoryData);
+    try {
+      const category: Category = await this.categoriesService.create(
+        newCategoryData,
+      );
 
-    return category;
+      return category;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Mutation(() => Boolean)
   async removeCategory(@Args() args: CategoriesArgs): Promise<Boolean> {
     const { id } = args;
-    return this.categoriesService.removeOneById(id);
+
+    try {
+      return await this.categoriesService.removeOneById(id);
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
   }
 
   @Mutation(() => Category)

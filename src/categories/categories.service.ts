@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Category } from './models/category.model';
 import { categories } from '../../data/categories';
 import { NewCategoryInput } from './dto/category.input';
@@ -14,39 +18,49 @@ export class CategoriesService {
   // Find all categories by their IDs
   // @param ids Array of category IDs
   async findAllByIds(ids: string[]) {
-    const categories: Category[] = [];
+    const foundCategories: Category[] = [];
 
     for (const id of ids) {
       const category = await this.findOneById(id);
-      if (category) categories.push(category);
+      if (category) foundCategories.push(category);
     }
-    return categories;
+    return foundCategories;
   }
 
   // Find a category by its ID
   // @param id Category ID
   async findOneById(id: string): Promise<Category> {
-    return categories.find((category) => category.id === id);
+    const category: Category = categories.find(
+      (category) => category.id === id,
+    );
+
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
+
+    return category;
   }
 
   // Create a new category
   async create(createCategoryInput: NewCategoryInput): Promise<Category> {
-    const existingCategory = await this.findOneById(createCategoryInput.id);
+    // Check if category already exists
+    const existingCategory: Category = categories.find(
+      (category) => category.id === createCategoryInput.id,
+    );
 
     // If category already exists, throw an error
     if (existingCategory) {
-      throw new Error('Category already exists');
+      throw new BadRequestException('Category already exists');
     }
 
+    // If category doesn't exist, create a new one
     const newCategory: Category = {
       ...createCategoryInput,
     };
 
-    const currentDate = new Date();
-
     // Add createdAt and updatedAt fields
-    newCategory.createdAt = currentDate.toISOString().slice(0, 24);
-    newCategory.updatedAt = currentDate.toISOString().slice(0, 24);
+    newCategory.createdAt = new Date().toISOString().slice(0, 24);
+    newCategory.updatedAt = new Date().toISOString().slice(0, 24);
 
     categories.push(newCategory);
 
@@ -54,22 +68,22 @@ export class CategoriesService {
   }
 
   async removeOneById(id: string): Promise<Boolean> {
-    // Retrieve the category
-    const category = await this.findOneById(id);
+    try {
+      // Retrieve the category
+      const category = await this.findOneById(id);
 
-    // If the category doesn't exist, throw an error
-    if (!category) {
-      throw new Error("Category doesn't exist");
+      // Store the index of the category
+      const categoryIndex = categories.indexOf(category);
+
+      // Remove the category based on its index
+      categories.splice(categoryIndex, 1);
+
+      // Return success
+      return true;
+    } catch (error) {
+      // If the category doesn't exist, throw an error
+      throw new NotFoundException(error);
     }
-
-    // Store the index of the category
-    const categoryIndex = categories.indexOf(category);
-
-    // Remove the category based on its index
-    categories.splice(categoryIndex, 1);
-
-    // Return success
-    return true;
   }
 
   async updateOneById(id: string, updateCategoryInput: UpdateCategoryInput) {
