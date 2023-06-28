@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Category } from './models/category.model';
 import { categories } from '../../data/categories';
 import { NewCategoryInput } from './dto/category.input';
+import { UpdateCategoryInput } from './dto/category.update';
 
 @Injectable()
 export class CategoriesService {
@@ -69,5 +70,23 @@ export class CategoriesService {
 
     // Return success
     return true;
+  }
+
+  async updateOneById(id: string, updateCategoryInput: UpdateCategoryInput) {
+    const category: Category = await this.findOneById(id);
+
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
+
+    const categoryIndex = categories.indexOf(category);
+
+    categories[categoryIndex] = {
+      ...category,
+      ...updateCategoryInput,
+      updatedAt: new Date().toISOString().slice(0, 24),
+    };
+
+    return categories[categoryIndex];
   }
 }

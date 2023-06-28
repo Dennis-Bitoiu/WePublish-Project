@@ -4,6 +4,7 @@ import { Args, Resolver } from '@nestjs/graphql';
 import { CategoriesService } from './categories.service';
 import { CategoriesArgs } from './dto/categories.args';
 import { NewCategoryInput } from './dto/category.input';
+import { UpdateCategoryInput } from './dto/category.update';
 import { Category } from './models/category.model';
 
 @Resolver((of) => Category)
@@ -48,5 +49,23 @@ export class CategoriesResolver {
   async removeCategory(@Args() args: CategoriesArgs): Promise<Boolean> {
     const { id } = args;
     return this.categoriesService.removeOneById(id);
+  }
+
+  @Mutation(() => Category)
+  async updateCategory(
+    @Args() args: CategoriesArgs,
+    @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput,
+  ): Promise<Category> {
+    try {
+      const { id } = args;
+      const updatedCategory = await this.categoriesService.updateOneById(
+        id,
+        updateCategoryInput,
+      );
+
+      return updatedCategory;
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
   }
 }
