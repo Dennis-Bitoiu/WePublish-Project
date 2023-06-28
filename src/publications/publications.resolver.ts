@@ -90,9 +90,7 @@ export class PublicationsResolver {
   }
 
   @Mutation(() => Boolean)
-  async removePublicationById(
-    @Args() args: PublicationsArgs,
-  ): Promise<Boolean> {
+  async removePublication(@Args() args: PublicationsArgs): Promise<Boolean> {
     const { id } = args;
 
     return await this.publicationsService.removeOneById(id);

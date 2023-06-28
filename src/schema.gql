@@ -33,9 +33,9 @@ type Query {
 
 type Mutation {
   createCategory(newCategoryData: NewCategoryInput!): Category!
-  removeCategoryById(id: String!): Boolean!
+  removeCategory(id: String!): Boolean!
   createPublication(publicationInput: NewPublicationInput!): Publication!
-  removePublicationById(id: ID!): Boolean!
+  removePublication(id: ID!): Boolean!
 }
 
 input NewCategoryInput {

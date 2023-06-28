@@ -45,7 +45,7 @@ export class CategoriesResolver {
   }
 
   @Mutation(() => Boolean)
-  async removeCategoryById(@Args() args: CategoriesArgs): Promise<Boolean> {
+  async removeCategory(@Args() args: CategoriesArgs): Promise<Boolean> {
     const { id } = args;
     return this.categoriesService.removeOneById(id);
   }
