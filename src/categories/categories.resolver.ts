@@ -43,4 +43,10 @@ export class CategoriesResolver {
 
     return category;
   }
+
+  @Mutation(() => Boolean)
+  async removeCategoryById(@Args() args: CategoriesArgs): Promise<Boolean> {
+    const { id } = args;
+    return this.categoriesService.removeOneById(id);
+  }
 }
