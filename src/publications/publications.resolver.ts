@@ -5,6 +5,7 @@ import { PublicationsService } from './publications.service';
 import { Publication } from './models/publication.model';
 import { PublicationsArgs } from './dto/publications.args';
 import { NewPublicationInput } from './dto/publication.input';
+import { UpdatePublicationInput } from './dto/publication.update';
 import { Category } from 'src/categories/models/category.model';
 import { CategoriesService } from 'src/categories/categories.service';
 
@@ -94,5 +95,21 @@ export class PublicationsResolver {
     const { id } = args;
 
     return await this.publicationsService.removeOneById(id);
+  }
+
+  @Mutation(() => Publication)
+  async updatePublication(
+    @Args() args: PublicationsArgs,
+    @Args('updatePublicationInput')
+    updatePublicationInput: UpdatePublicationInput,
+  ): Promise<Publication> {
+    const { id } = args;
+
+    const updatedPublication = await this.publicationsService.updateOneById(
+      id,
+      updatePublicationInput,
+    );
+
+    return updatedPublication;
   }
 }
