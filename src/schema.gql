@@ -34,6 +34,7 @@ type Query {
 type Mutation {
   createCategory(newCategoryData: NewCategoryInput!): Category!
   removeCategory(id: String!): Boolean!
+  updateCategory(id: String!, updateCategoryInput: UpdateCategoryInput!): Category!
   createPublication(publicationInput: NewPublicationInput!): Publication!
   removePublication(id: ID!): Boolean!
   updatePublication(id: ID!, updatePublicationInput: UpdatePublicationInput!): Publication!
@@ -44,6 +45,15 @@ input NewCategoryInput {
   name: String!
   slug: String!
   iconUrl: String!
+  activeFrom: String
+  activeUntil: String
+}
+
+input UpdateCategoryInput {
+  id: ID
+  name: String
+  slug: String
+  iconUrl: String
   activeFrom: String
   activeUntil: String
 }
