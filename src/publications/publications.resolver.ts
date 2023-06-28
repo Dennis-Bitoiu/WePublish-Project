@@ -88,4 +88,13 @@ export class PublicationsResolver {
 
     return publication;
   }
+
+  @Mutation(() => Boolean)
+  async removePublicationById(
+    @Args() args: PublicationsArgs,
+  ): Promise<Boolean> {
+    const { id } = args;
+
+    return await this.publicationsService.removeOneById(id);
+  }
 }
