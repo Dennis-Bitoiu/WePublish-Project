@@ -30,6 +30,13 @@ export class CategoriesService {
 
   // Create a new category
   async create(createCategoryInput: NewCategoryInput): Promise<Category> {
+    const existingCategory = await this.findOneById(createCategoryInput.id);
+
+    // If category already exists, throw an error
+    if (existingCategory) {
+      throw new Error('Category already exists');
+    }
+
     const newCategory: Category = {
       ...createCategoryInput,
     };
