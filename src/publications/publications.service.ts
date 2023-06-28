@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Publication } from './models/publication.model';
 import { publications } from '../../data/publications';
 import { NewPublicationInput } from './dto/publication.input';
+import { UpdatePublicationInput } from './dto/publication.update';
 
 @Injectable()
 export class PublicationsService {
@@ -43,5 +44,24 @@ export class PublicationsService {
     publications.splice(publicationId, 1);
 
     return true;
+  }
+
+  async updateOneById(
+    id: string,
+    updatePublicationInput: UpdatePublicationInput,
+  ) {
+    let publication: Publication = await this.findOneById(id);
+
+    if (!publication) {
+      throw new NotFoundException('Publication not found');
+    }
+
+    const publicationIndex = publications.indexOf(publication);
+    publications[publicationIndex] = {
+      ...publication,
+      ...updatePublicationInput,
+    };
+
+    return publications[publicationIndex];
   }
 }
