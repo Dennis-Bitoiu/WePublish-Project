@@ -31,4 +31,17 @@ export class PublicationsService {
     publications.push(publication);
     return publication;
   }
+
+  async removeOneById(id: string): Promise<Boolean> {
+    const publication = await this.findOneById(id);
+
+    if (!publication) {
+      throw new Error('Publication not found');
+    }
+
+    const publicationId = publications.indexOf(publication);
+    publications.splice(publicationId, 1);
+
+    return true;
+  }
 }
