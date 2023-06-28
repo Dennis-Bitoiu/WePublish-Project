@@ -36,6 +36,7 @@ type Mutation {
   removeCategory(id: String!): Boolean!
   createPublication(publicationInput: NewPublicationInput!): Publication!
   removePublication(id: ID!): Boolean!
+  updatePublication(id: ID!, updatePublicationInput: UpdatePublicationInput!): Publication!
 }
 
 input NewCategoryInput {
@@ -55,4 +56,14 @@ input NewPublicationInput {
   publishFrom: String!
   publishUntil: String!
   categories: [ID!]!
+}
+
+input UpdatePublicationInput {
+  id: ID
+  slug: String
+  name: String
+  coverUrl: String
+  publishFrom: String
+  publishUntil: String
+  categories: [ID!]
 }
