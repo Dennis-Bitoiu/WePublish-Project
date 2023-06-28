@@ -103,13 +103,17 @@ export class PublicationsResolver {
     @Args('updatePublicationInput')
     updatePublicationInput: UpdatePublicationInput,
   ): Promise<Publication> {
-    const { id } = args;
+    try {
+      const { id } = args;
 
-    const updatedPublication = await this.publicationsService.updateOneById(
-      id,
-      updatePublicationInput,
-    );
+      const updatedPublication = await this.publicationsService.updateOneById(
+        id,
+        updatePublicationInput,
+      );
 
-    return updatedPublication;
+      return updatedPublication;
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
   }
 }
