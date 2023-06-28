@@ -15,7 +15,6 @@ export class CategoriesResolver {
   // Second argument sets the query type name to 'categories'
   @Query((returns) => [Category], { name: 'categories' })
   getCategories(): Promise<Category[]> {
-    console.log('here');
     return this.categoriesService.findAll();
   }
 
