@@ -44,7 +44,9 @@ export class CategoriesService {
 
   // Create a new category
   async create(createCategoryInput: NewCategoryInput): Promise<Category> {
-    const uuid = uuidv4();
+    // In case the dto has an id, use it. Otherwise, generate a new one
+    // This can be useful when we want to create a publication with a specific id (say the company uses a specific id schem)
+    const uuid = createCategoryInput.id ? createCategoryInput.id : uuidv4();
 
     // Check if category already exists
     const existingCategory: Category = categories.find(

@@ -30,7 +30,9 @@ export class PublicationsService {
   }
 
   async create(publicationInput: NewPublicationInput) {
-    const uuid = uuidv4();
+    // In case the dto has an id, use it. Otherwise, generate a new one
+    // This can be useful when we want to create a publication with a specific id (say the company uses a specific id schem)
+    const uuid = publicationInput.id ? publicationInput.id : uuidv4();
 
     const existingPublication = await this.findOneById(uuid);
 
