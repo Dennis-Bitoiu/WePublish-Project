@@ -17,6 +17,8 @@ $ npm install
 
 ## Running the app
 
+The application can be accessed at `http://localhost:3000`
+
 ```bash
 # development
 $ npm run start
@@ -28,29 +30,36 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Docker Build
+
+Before you build the Docker image, make sure Docker is available in your environment. Execute the following commands from the root of the project
+
+```bash
+  docker build . --tag <image_name>
+  # build container
+
+```
+
+This should build a Docker image named `image_name`
+
+## Docker Run
+
+Run the newly created Docker image, `image_name`, by executing the following command from the terminal:
+
+```bash
+docker run --rm <image_name>
+```
+
+##### Options
+
+- `--rm` option automatically clean up the container and remove the file system when the container exit.
+
+This should start up the application and it can be accessed at `http://localhost:3000`
+
 ## Test
 
 ```bash
 # unit tests
 $ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
