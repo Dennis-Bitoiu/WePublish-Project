@@ -6,8 +6,8 @@ import { Publication } from './models/publication.model';
 import { PublicationsArgs } from './dto/publications.args';
 import { NewPublicationInput } from './dto/publication.input';
 import { UpdatePublicationInput } from './dto/publication.update';
-import { Category } from 'src/categories/models/category.model';
-import { CategoriesService } from 'src/categories/categories.service';
+import { Category } from '../categories/models/category.model';
+import { CategoriesService } from '../categories/categories.service';
 
 @Resolver((of) => Publication)
 export class PublicationsResolver {
