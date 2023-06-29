@@ -8,6 +8,7 @@ import { categories } from '../../data/categories';
 import { NewCategoryInput } from './dto/category.input';
 import { UpdateCategoryInput } from './dto/category.update';
 import { v4 as uuidv4 } from 'uuid';
+import * as _ from 'lodash';
 
 @Injectable()
 export class CategoriesService {
@@ -63,6 +64,9 @@ export class CategoriesService {
       id: uuid,
       ...createCategoryInput,
     };
+
+    // Slugify the category slug
+    newCategory.slug = _.kebabCase(newCategory.slug);
 
     // Add createdAt and updatedAt fields
     newCategory.createdAt = new Date().toISOString().slice(0, 24);

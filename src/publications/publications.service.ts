@@ -8,6 +8,7 @@ import { publications } from '../../data/publications';
 import { NewPublicationInput } from './dto/publication.input';
 import { UpdatePublicationInput } from './dto/publication.update';
 import { v4 as uuidv4 } from 'uuid';
+import * as _ from 'lodash';
 
 @Injectable()
 export class PublicationsService {
@@ -44,6 +45,9 @@ export class PublicationsService {
       id: uuid,
       ...publicationInput,
     };
+
+    // Slugify the slug
+    publication.slug = _.kebabCase(publication.slug);
 
     publications.push(publication);
     return publication;
