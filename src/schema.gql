@@ -41,7 +41,7 @@ type Mutation {
 }
 
 input NewCategoryInput {
-  id: ID!
+  id: ID
   name: String!
   slug: String!
   iconUrl: String!

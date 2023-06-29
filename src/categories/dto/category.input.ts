@@ -5,7 +5,7 @@ import { Field, InputType, ID } from '@nestjs/graphql';
 
 @InputType()
 export class NewCategoryInput {
-  @Field((type) => ID)
+  @Field((type) => ID, { nullable: true })
   id: string;
 
   @Field()
