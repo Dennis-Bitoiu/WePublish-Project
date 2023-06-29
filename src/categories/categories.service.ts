@@ -7,6 +7,7 @@ import { Category } from './models/category.model';
 import { categories } from '../../data/categories';
 import { NewCategoryInput } from './dto/category.input';
 import { UpdateCategoryInput } from './dto/category.update';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class CategoriesService {
@@ -43,9 +44,11 @@ export class CategoriesService {
 
   // Create a new category
   async create(createCategoryInput: NewCategoryInput): Promise<Category> {
+    const uuid = uuidv4();
+
     // Check if category already exists
     const existingCategory: Category = categories.find(
-      (category) => category.id === createCategoryInput.id,
+      (category) => category.id === uuid,
     );
 
     // If category already exists, throw an error
@@ -55,6 +58,7 @@ export class CategoriesService {
 
     // If category doesn't exist, create a new one
     const newCategory: Category = {
+      id: uuid,
       ...createCategoryInput,
     };
 
