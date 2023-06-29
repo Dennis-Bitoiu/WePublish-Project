@@ -5,13 +5,12 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
 ## Installation
 
+Run the following command in the root directory
+
 ```bash
+# install the required dependencies
 $ npm install
 ```
 
@@ -35,8 +34,8 @@ $ npm run start:prod
 Before you build the Docker image, make sure Docker is available in your environment. Execute the following commands from the root of the project
 
 ```bash
-  docker build . --tag <image_name>
-  # build container
+# build container
+$ docker build . --tag <image_name>
 
 ```
 
@@ -47,7 +46,7 @@ This should build a Docker image named `image_name`
 Run the newly created Docker image, `image_name`, by executing the following command from the terminal:
 
 ```bash
-docker run --rm <image_name>
+$ docker run --rm <image_name>
 ```
 
 ##### Options
