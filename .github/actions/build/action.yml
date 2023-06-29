@@ -1,0 +1,10 @@
+name: 'build'
+description: 'build nest.js server'
+runs:
+  using: 'composite'
+  steps:
+    - shell: bash
+      run: |
+        npm ci
+        npm run test
+        npm run build
