@@ -2,7 +2,7 @@ import { Field, InputType, ID } from '@nestjs/graphql';
 
 @InputType()
 export class NewPublicationInput {
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   id: string;
 
   @Field()

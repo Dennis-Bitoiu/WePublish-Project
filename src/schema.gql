@@ -59,7 +59,7 @@ input UpdateCategoryInput {
 }
 
 input NewPublicationInput {
-  id: ID!
+  id: ID
   slug: String!
   name: String!
   coverUrl: String!
