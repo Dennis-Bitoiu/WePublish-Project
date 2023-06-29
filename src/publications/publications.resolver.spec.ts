@@ -3,6 +3,7 @@ import { PublicationsResolver } from './publications.resolver';
 import { publications } from '../../data/publications';
 import { PublicationsService } from './publications.service';
 import { CategoriesService } from '../categories/categories.service';
+import { Publication } from './models/publication.model';
 
 describe('PublicationsResolver', () => {
   let resolver: PublicationsResolver;
@@ -42,6 +43,31 @@ describe('PublicationsResolver', () => {
 
         expect(result.id).toEqual(publication.id);
         expect(result.slug).toEqual(publication.slug);
+      }
+    });
+  });
+
+  describe('removePublication', () => {
+    it('should return true if the publcation was removed successfully', async () => {
+      const success: Boolean = await resolver.removePublication({
+        id: publications[0].id,
+      });
+
+      expect(success).toEqual(true);
+    });
+  });
+
+  describe('getPublicationCategories', () => {
+    it('should return an array of categories', async () => {
+      const publication: Publication = await resolver.getPublicationById({
+        id: 'b27afed5-e159-44e6-a3f9-e61671f8b173',
+      });
+      const categories = await resolver.getPublicationCategories({
+        id: 'b27afed5-e159-44e6-a3f9-e61671f8b173',
+      });
+
+      for (let i = 0; i < categories.length; i++) {
+        expect(categories[i].id).toEqual(publication.categories[i]);
       }
     });
   });
