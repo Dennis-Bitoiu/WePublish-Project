@@ -23,7 +23,6 @@ export class CategoriesResolver {
     try {
       // Destructure ID from args
       const { id } = args;
-
       // Await for the promise to resolve
       const category = await this.categoriesService.findOneById(id);
 

@@ -24,11 +24,25 @@ describe('PublicationsResolver', () => {
   describe('getPublications', () => {
     it('should return an array of publications', async () => {
       jest.spyOn(service, 'findAll').mockResolvedValue(publications);
+      expect(service.findAll).not.toHaveBeenCalled();
 
       const result = await resolver.getPublications();
 
       expect(result).toEqual(publications);
       expect(service.findAll).toHaveBeenCalled();
+    });
+  });
+
+  describe('getPublicationById', () => {
+    it('should return a publication by ID', async () => {
+      for (const publication of publications) {
+        const result = await resolver.getPublicationById({
+          id: publication.id, // Pass as argument an object with the same shape as the PublicationArgs type
+        });
+
+        expect(result.id).toEqual(publication.id);
+        expect(result.slug).toEqual(publication.slug);
+      }
     });
   });
 });
