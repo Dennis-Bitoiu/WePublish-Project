@@ -1,5 +1,5 @@
 import { Args, Parent, Resolver } from '@nestjs/graphql';
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Mutation, Query } from '@nestjs/graphql';
 import { PublicationsService } from './publications.service';
 import { Publication } from './models/publication.model';
@@ -70,9 +70,7 @@ export class PublicationsResolver {
     // If a publication with the same slug or ID already exists, throw an error
     // A publication can only be created if the slug and ID are unique
     if (existingPublication) {
-      throw new Error(
-        `Publication with slug: ${publicationInput.slug} and id: ${publicationInput.id} already exists`,
-      );
+      throw new BadRequestException(`Publication already exists`);
     }
 
     // Check if each category ID in the publicationInput exists
