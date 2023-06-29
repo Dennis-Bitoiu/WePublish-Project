@@ -1,8 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Publication } from './models/publication.model';
 import { publications } from '../../data/publications';
 import { NewPublicationInput } from './dto/publication.input';
 import { UpdatePublicationInput } from './dto/publication.update';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class PublicationsService {
@@ -25,7 +30,16 @@ export class PublicationsService {
   }
 
   async create(publicationInput: NewPublicationInput) {
+    const uuid = uuidv4();
+
+    const existingPublication = await this.findOneById(uuid);
+
+    if (existingPublication) {
+      throw new BadRequestException('Publication already exists');
+    }
+
     const publication: Publication = {
+      id: uuid,
       ...publicationInput,
     };
 
