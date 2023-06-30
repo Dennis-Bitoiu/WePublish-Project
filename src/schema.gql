@@ -3,34 +3,34 @@
 # ------------------------------------------------------
 
 type CategoryEntity {
-  id: ID!
+  id: String!
   name: String!
   slug: String!
-  iconUrl: String!
-  activeFrom: String
-  activeUntil: String
-  createdAt: String!
-  updatedAt: String!
+  iconurl: String!
+  activefrom: String
+  activeuntil: String
+  createdat: String!
+  updatedat: String!
 }
 
 type Category {
   id: ID!
   name: String!
   slug: String!
-  iconUrl: String!
-  activeFrom: String
-  activeUntil: String
-  createdAt: String!
-  updatedAt: String!
+  iconurl: String!
+  activefrom: String
+  activeuntil: String
+  createdat: String!
+  updatedat: String!
 }
 
 type PublicationEntity {
   id: ID!
   slug: String!
   name: String!
-  coverUrl: String!
-  publishFrom: String!
-  publishUntil: String!
+  coverurl: String!
+  publishfrom: String!
+  publishuntil: String!
   categories: [String!]!
 }
 
@@ -38,9 +38,9 @@ type Publication {
   id: ID!
   slug: String!
   name: String!
-  coverUrl: String!
-  publishFrom: String!
-  publishUntil: String!
+  coverurl: String!
+  publishfrom: String!
+  publishuntil: String!
   categories: [ID!]!
 }
 
@@ -50,6 +50,7 @@ type Query {
   publications: [PublicationEntity!]!
   publication(id: ID!): PublicationEntity!
   publicationCategories(id: ID!): [Category!]!
+  bulkImport: [PublicationEntity!]!
 }
 
 type Mutation {

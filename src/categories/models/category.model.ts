@@ -13,17 +13,17 @@ export class Category {
   slug: string;
 
   @Field()
-  iconUrl: string;
+  iconurl: string;
 
   @Field({ nullable: true })
-  activeFrom: string;
+  activefrom: string;
 
   @Field({ nullable: true })
-  activeUntil: string;
+  activeuntil: string;
 
   @Field()
-  createdAt?: string;
+  createdat?: string;
 
   @Field()
-  updatedAt?: string;
+  updatedat?: string;
 }

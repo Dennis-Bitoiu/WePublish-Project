@@ -10,6 +10,7 @@ import { UpdatePublicationInput } from './dto/publication.update';
 import { Category } from '../categories/models/category.model';
 import { CategoriesService } from '../categories/categories.service';
 import { publications } from '../../data/publications';
+import { query } from 'express';
 
 @Resolver((of) => PublicationEntity)
 export class PublicationsResolver {

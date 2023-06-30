@@ -26,6 +26,29 @@ let PublicationsService = exports.PublicationsService = class PublicationsServic
         const publications = await this.publicationRepository.find();
         return publications;
     }
+    async createMultiple(publications) {
+        const queryRunner = this.publicationRepository.manager.connection.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
+        try {
+            const insertedPublications = await queryRunner.manager
+                .createQueryBuilder()
+                .insert()
+                .into(publication_entity_1.PublicationEntity)
+                .values(publications)
+                .onConflict(`("id") DO NOTHING`)
+                .execute();
+            await queryRunner.commitTransaction();
+            return insertedPublications.raw;
+        }
+        catch (error) {
+            await queryRunner.rollbackTransaction();
+            throw error;
+        }
+        finally {
+            await queryRunner.release();
+        }
+    }
     async findOneById(id) {
         const publication = await this.publicationRepository.find({
             where: {

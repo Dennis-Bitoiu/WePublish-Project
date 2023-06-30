@@ -33,17 +33,17 @@ __decorate([
     (0, typeorm_1.Column)(),
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], PublicationEntity.prototype, "coverUrl", void 0);
+], PublicationEntity.prototype, "coverurl", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], PublicationEntity.prototype, "publishFrom", void 0);
+], PublicationEntity.prototype, "publishfrom", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], PublicationEntity.prototype, "publishUntil", void 0);
+], PublicationEntity.prototype, "publishuntil", void 0);
 __decorate([
     (0, typeorm_1.Column)('jsonb', { nullable: true }),
     (0, graphql_1.Field)(() => [String]),

@@ -12,13 +12,16 @@ export declare class CategoriesService {
     create(createCategoryInput: NewCategoryInput): Promise<Category>;
     removeOneById(id: string): Promise<CategoryEntity>;
     updateOneById(id: string, updateCategoryInput: UpdateCategoryInput): Promise<{
-        updatedAt: string;
+        updatedat: string;
         id: string;
         name: string;
         slug: string;
         iconUrl: string;
         activeFrom: string;
         activeUntil: string;
-        createdAt?: string;
+        iconurl: string;
+        activefrom: string;
+        activeuntil: string;
+        createdat?: string;
     } & CategoryEntity>;
 }

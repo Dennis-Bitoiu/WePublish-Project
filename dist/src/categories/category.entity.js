@@ -16,7 +16,7 @@ let CategoryEntity = exports.CategoryEntity = class CategoryEntity {
 };
 __decorate([
     (0, typeorm_1.PrimaryColumn)({ unique: true }),
-    (0, graphql_1.Field)((type) => graphql_1.ID),
+    (0, graphql_1.Field)(),
     __metadata("design:type", String)
 ], CategoryEntity.prototype, "id", void 0);
 __decorate([
@@ -33,27 +33,27 @@ __decorate([
     (0, typeorm_1.Column)(),
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], CategoryEntity.prototype, "iconUrl", void 0);
+], CategoryEntity.prototype, "iconurl", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
-], CategoryEntity.prototype, "activeFrom", void 0);
+], CategoryEntity.prototype, "activefrom", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
-], CategoryEntity.prototype, "activeUntil", void 0);
+], CategoryEntity.prototype, "activeuntil", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], CategoryEntity.prototype, "createdAt", void 0);
+], CategoryEntity.prototype, "createdat", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], CategoryEntity.prototype, "updatedAt", void 0);
+], CategoryEntity.prototype, "updatedat", void 0);
 exports.CategoryEntity = CategoryEntity = __decorate([
     (0, typeorm_1.Entity)(),
     (0, graphql_1.ObjectType)()

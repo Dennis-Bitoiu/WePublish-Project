@@ -13,13 +13,13 @@ export class Publication {
   name: string;
 
   @Field()
-  coverUrl: string;
+  coverurl: string;
 
   @Field()
-  publishFrom: string;
+  publishfrom: string;
 
   @Field()
-  publishUntil: string;
+  publishuntil: string;
 
   @Field(() => [ID])
   categories: string[];

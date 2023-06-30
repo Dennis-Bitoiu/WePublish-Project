@@ -5,7 +5,7 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 @ObjectType()
 export class CategoryEntity {
   @PrimaryColumn({ unique: true })
-  @Field((type) => ID)
+  @Field()
   id: string;
 
   @Column()
@@ -18,21 +18,21 @@ export class CategoryEntity {
 
   @Column()
   @Field()
-  iconUrl: string;
+  iconurl: string;
 
   @Column({ nullable: true })
   @Field({ nullable: true })
-  activeFrom: string;
+  activefrom: string;
 
   @Column({ nullable: true })
   @Field({ nullable: true })
-  activeUntil: string;
+  activeuntil: string;
 
   @Column()
   @Field()
-  createdAt?: string;
+  createdat: string;
 
   @Column()
   @Field()
-  updatedAt?: string;
+  updatedat: string;
 }

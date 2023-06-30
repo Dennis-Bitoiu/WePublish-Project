@@ -18,15 +18,15 @@ export class PublicationEntity {
 
   @Column()
   @Field()
-  coverUrl: string;
+  coverurl: string;
 
   @Column()
   @Field()
-  publishFrom: string;
+  publishfrom: string;
 
   @Column()
   @Field()
-  publishUntil: string;
+  publishuntil: string;
 
   @Column('jsonb', { nullable: true })
   @Field(() => [String])

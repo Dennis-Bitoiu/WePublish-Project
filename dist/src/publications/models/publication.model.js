@@ -28,15 +28,15 @@ __decorate([
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], Publication.prototype, "coverUrl", void 0);
+], Publication.prototype, "coverurl", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], Publication.prototype, "publishFrom", void 0);
+], Publication.prototype, "publishfrom", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], Publication.prototype, "publishUntil", void 0);
+], Publication.prototype, "publishuntil", void 0);
 __decorate([
     (0, graphql_1.Field)(() => [graphql_1.ID]),
     __metadata("design:type", Array)

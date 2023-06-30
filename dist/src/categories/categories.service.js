@@ -56,10 +56,15 @@ let CategoriesService = exports.CategoriesService = class CategoriesService {
         const newCategory = {
             id: uuid,
             ...createCategoryInput,
+            iconurl: '',
+            activefrom: '',
+            activeuntil: '',
+            createdat: '',
+            updatedat: '',
         };
         newCategory.slug = _.kebabCase(newCategory.slug);
-        newCategory.createdAt = new Date().toISOString().slice(0, 24);
-        newCategory.updatedAt = new Date().toISOString().slice(0, 24);
+        newCategory.createdat = new Date().toISOString().slice(0, 24);
+        newCategory.updatedat = new Date().toISOString().slice(0, 24);
         return await this.categoryRepository.save(newCategory);
     }
     async removeOneById(id) {
@@ -80,7 +85,7 @@ let CategoriesService = exports.CategoriesService = class CategoriesService {
         const newCategory = {
             ...category,
             ...updateCategoryInput,
-            updatedAt: new Date().toISOString().slice(0, 24),
+            updatedat: new Date().toISOString().slice(0, 24),
         };
         newCategory.slug = _.kebabCase(newCategory.slug);
         return await this.categoryRepository.save(newCategory);

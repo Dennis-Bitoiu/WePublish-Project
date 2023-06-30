@@ -28,23 +28,23 @@ __decorate([
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], Category.prototype, "iconUrl", void 0);
+], Category.prototype, "iconurl", void 0);
 __decorate([
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
-], Category.prototype, "activeFrom", void 0);
+], Category.prototype, "activefrom", void 0);
 __decorate([
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
-], Category.prototype, "activeUntil", void 0);
+], Category.prototype, "activeuntil", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], Category.prototype, "createdAt", void 0);
+], Category.prototype, "createdat", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], Category.prototype, "updatedAt", void 0);
+], Category.prototype, "updatedat", void 0);
 exports.Category = Category = __decorate([
     (0, graphql_1.ObjectType)()
 ], Category);
