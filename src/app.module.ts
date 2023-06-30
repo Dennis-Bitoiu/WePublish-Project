@@ -13,6 +13,7 @@ import { PublicationsModule } from './publications/publications.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     TypeOrmModule.forRoot({
+      // These would normally be in a .env file
       name: 'default',
       type: 'postgres',
       url: 'postgres://mkheylow:NBAY8IYubPRvuk3o-5Vcj3p6dfJPUGzD@dumbo.db.elephantsql.com/mkheylow',
