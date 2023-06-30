@@ -50,7 +50,6 @@ type Query {
   publications: [PublicationEntity!]!
   publication(id: ID!): PublicationEntity!
   publicationCategories(id: ID!): [Category!]!
-  bulkImport: [PublicationEntity!]!
 }
 
 type Mutation {

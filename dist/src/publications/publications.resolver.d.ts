@@ -13,7 +13,6 @@ export declare class PublicationsResolver {
     getPublications(): Promise<PublicationEntity[]>;
     getPublicationById(args: PublicationsArgs): Promise<PublicationEntity>;
     getPublicationCategories(args: PublicationsArgs): Promise<Category[]>;
-    bulkImport(): Promise<PublicationEntity[]>;
     createPublication(publicationInput: NewPublicationInput): Promise<Publication>;
     removePublication(args: PublicationsArgs): Promise<PublicationEntity>;
     updatePublication(args: PublicationsArgs, updatePublicationInput: UpdatePublicationInput): Promise<Publication>;

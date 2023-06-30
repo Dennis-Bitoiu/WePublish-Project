@@ -24,7 +24,6 @@ const publication_input_1 = require("./dto/publication.input");
 const publication_update_1 = require("./dto/publication.update");
 const category_model_1 = require("../categories/models/category.model");
 const categories_service_1 = require("../categories/categories.service");
-const publications_1 = require("../../data/publications");
 let PublicationsResolver = exports.PublicationsResolver = class PublicationsResolver {
     constructor(publicationsService, categoriesService) {
         this.publicationsService = publicationsService;
@@ -49,9 +48,6 @@ let PublicationsResolver = exports.PublicationsResolver = class PublicationsReso
         }
         const publicationCategories = await this.categoriesService.findAllByIds(publication.categories);
         return publicationCategories;
-    }
-    async bulkImport() {
-        return await this.publicationsService.createMultiple(publications_1.publications);
     }
     async createPublication(publicationInput) {
         const publication = await this.publicationsService.create(publicationInput);
@@ -92,12 +88,6 @@ __decorate([
     __metadata("design:paramtypes", [publications_args_1.PublicationsArgs]),
     __metadata("design:returntype", Promise)
 ], PublicationsResolver.prototype, "getPublicationCategories", null);
-__decorate([
-    (0, graphql_2.Query)(() => [publication_entity_1.PublicationEntity], { name: 'bulkImport' }),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], PublicationsResolver.prototype, "bulkImport", null);
 __decorate([
     (0, graphql_2.Mutation)(() => publication_entity_1.PublicationEntity),
     __param(0, (0, graphql_1.Args)('publicationInput')),

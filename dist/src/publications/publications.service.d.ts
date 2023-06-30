@@ -7,7 +7,6 @@ export declare class PublicationsService {
     private publicationRepository;
     constructor(publicationRepository: Repository<PublicationEntity>);
     findAll(): Promise<PublicationEntity[]>;
-    createMultiple(publications: PublicationEntity[]): Promise<PublicationEntity[]>;
     findOneById(id: string): Promise<Publication>;
     findOneBySlug(slug: String): Promise<Publication>;
     create(publicationInput: NewPublicationInput): Promise<PublicationEntity>;
