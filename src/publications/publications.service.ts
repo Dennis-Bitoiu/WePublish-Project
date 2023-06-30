@@ -9,19 +9,31 @@ import { NewPublicationInput } from './dto/publication.input';
 import { UpdatePublicationInput } from './dto/publication.update';
 import { v4 as uuidv4 } from 'uuid';
 import * as _ from 'lodash';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { PublicationEntity } from './publication.entity';
 
 @Injectable()
 export class PublicationsService {
-  async findAll(): Promise<Publication[]> {
+  constructor(
+    @InjectRepository(PublicationEntity)
+    private publicationRepository: Repository<PublicationEntity>,
+  ) {}
+
+  async findAll(): Promise<PublicationEntity[]> {
+    const publications = await this.publicationRepository.find();
+
     return publications;
   }
 
   async findOneById(id: string): Promise<Publication> {
-    const publication = publications.find(
-      (publication) => publication.id === id,
-    );
+    const publication = await this.publicationRepository.find({
+      where: {
+        id: id,
+      },
+    });
 
-    return publication;
+    return publication[0];
   }
 
   async findOneBySlug(slug: String): Promise<Publication> {
@@ -31,57 +43,43 @@ export class PublicationsService {
   }
 
   async create(publicationInput: NewPublicationInput) {
-    // In case the dto has an id, use it. Otherwise, generate a new one
-    // This can be useful when we want to create a publication with a specific id (say the company uses a specific id schem)
-    const uuid = publicationInput.id ? publicationInput.id : uuidv4();
+    const newPublication = this.publicationRepository.create(publicationInput);
 
-    const existingPublication = await this.findOneById(uuid);
-
-    if (existingPublication) {
-      throw new BadRequestException('Publication already exists');
-    }
-
-    const publication: Publication = {
-      id: uuid,
-      ...publicationInput,
-    };
-
-    // Slugify the slug
-    publication.slug = _.kebabCase(publication.slug);
-
-    publications.push(publication);
-    return publication;
+    return await this.publicationRepository.save(newPublication);
   }
 
-  async removeOneById(id: string): Promise<Boolean> {
+  async removeOneById(id: string): Promise<PublicationEntity> {
     const publication = await this.findOneById(id);
 
     if (!publication) {
       throw new Error('Publication not found');
     }
 
-    const publicationId = publications.indexOf(publication);
-    publications.splice(publicationId, 1);
+    const removedPublication = await this.publicationRepository.remove(
+      publication,
+    );
 
-    return true;
+    return removedPublication;
   }
 
   async updateOneById(
     id: string,
     updatePublicationInput: UpdatePublicationInput,
   ) {
+    // Retrieve the publication
     let publication: Publication = await this.findOneById(id);
 
+    // If the publication doesn't exist, throw an error
     if (!publication) {
       throw new NotFoundException('Publication not found');
     }
 
-    const publicationIndex = publications.indexOf(publication);
-    publications[publicationIndex] = {
+    // If the publication exists, update it
+    const updatedPublication: Publication = {
       ...publication,
       ...updatePublicationInput,
     };
 
-    return publications[publicationIndex];
+    return this.publicationRepository.save(updatedPublication);
   }
 }

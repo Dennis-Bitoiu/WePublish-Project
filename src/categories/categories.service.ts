@@ -9,12 +9,20 @@ import { NewCategoryInput } from './dto/category.input';
 import { UpdateCategoryInput } from './dto/category.update';
 import { v4 as uuidv4 } from 'uuid';
 import * as _ from 'lodash';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CategoryEntity } from './category.entity';
 
 @Injectable()
 export class CategoriesService {
+  constructor(
+    @InjectRepository(CategoryEntity)
+    private categoryRepository: Repository<CategoryEntity>,
+  ) {}
+
   // Find all categories
   async findAll(): Promise<Category[]> {
-    return categories;
+    return await this.categoryRepository.find();
   }
 
   // Find all categories by their IDs
@@ -31,16 +39,18 @@ export class CategoriesService {
 
   // Find a category by its ID
   // @param id Category ID
-  async findOneById(id: string): Promise<Category> {
-    const category: Category = categories.find(
-      (category) => category.id === id,
-    );
+  async findOneById(id: string): Promise<CategoryEntity> {
+    const category = await this.categoryRepository.find({
+      where: {
+        id: id,
+      },
+    });
 
     if (!category) {
       throw new NotFoundException('Category not found');
     }
 
-    return category;
+    return category[0];
   }
 
   // Create a new category
@@ -72,24 +82,18 @@ export class CategoriesService {
     newCategory.createdAt = new Date().toISOString().slice(0, 24);
     newCategory.updatedAt = new Date().toISOString().slice(0, 24);
 
-    categories.push(newCategory);
-
-    return newCategory;
+    return await this.categoryRepository.save(newCategory);
   }
 
-  async removeOneById(id: string): Promise<Boolean> {
+  async removeOneById(id: string): Promise<CategoryEntity> {
     try {
       // Retrieve the category
-      const category = await this.findOneById(id);
+      const removedCategory = await this.findOneById(id);
 
-      // Store the index of the category
-      const categoryIndex = categories.indexOf(category);
-
-      // Remove the category based on its index
-      categories.splice(categoryIndex, 1);
+      await this.categoryRepository.remove(removedCategory);
 
       // Return success
-      return true;
+      return removedCategory;
     } catch (error) {
       // If the category doesn't exist, throw an error
       throw new NotFoundException(error);
@@ -103,14 +107,14 @@ export class CategoriesService {
       throw new NotFoundException('Category not found');
     }
 
-    const categoryIndex = categories.indexOf(category);
-
-    categories[categoryIndex] = {
+    const newCategory = {
       ...category,
       ...updateCategoryInput,
       updatedAt: new Date().toISOString().slice(0, 24),
     };
 
-    return categories[categoryIndex];
+    newCategory.slug = _.kebabCase(newCategory.slug);
+
+    return await this.categoryRepository.save(newCategory);
   }
 }

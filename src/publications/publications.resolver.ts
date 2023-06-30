@@ -3,32 +3,33 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Mutation, Query } from '@nestjs/graphql';
 import { PublicationsService } from './publications.service';
 import { Publication } from './models/publication.model';
+import { PublicationEntity } from './publication.entity';
 import { PublicationsArgs } from './dto/publications.args';
 import { NewPublicationInput } from './dto/publication.input';
 import { UpdatePublicationInput } from './dto/publication.update';
 import { Category } from '../categories/models/category.model';
 import { CategoriesService } from '../categories/categories.service';
+import { publications } from '../../data/publications';
 
-@Resolver((of) => Publication)
+@Resolver((of) => PublicationEntity)
 export class PublicationsResolver {
   constructor(
     private readonly publicationsService: PublicationsService,
     private readonly categoriesService: CategoriesService,
   ) {}
 
-  @Query((returns) => [Publication], { name: 'publications' })
-  async getPublications(): Promise<Publication[]> {
+  @Query(() => [PublicationEntity], { name: 'publications' })
+  async getPublications(): Promise<PublicationEntity[]> {
     return this.publicationsService.findAll();
   }
 
-  @Query((returns) => Publication, { name: 'publication' })
+  @Query(() => PublicationEntity, { name: 'publication' })
   async getPublicationById(
     @Args() args: PublicationsArgs,
-  ): Promise<Publication> {
+  ): Promise<PublicationEntity> {
     const { id } = args;
 
     const publication = await this.publicationsService.findOneById(id);
-
     if (!publication) {
       throw new NotFoundException(id);
     }
@@ -49,7 +50,7 @@ export class PublicationsResolver {
 
     // If no publication is found, throw an error
     if (!publication) {
-      throw new NotFoundException(id);
+      throw new NotFoundException('Publication not found');
     }
 
     // Retrieve all categories for the publication
@@ -59,37 +60,19 @@ export class PublicationsResolver {
     return publicationCategories;
   }
 
-  @Mutation((returns) => Publication)
+  @Mutation(() => PublicationEntity)
   async createPublication(
     @Args('publicationInput') publicationInput: NewPublicationInput,
   ): Promise<Publication> {
-    const existingPublication: Publication =
-      (await this.publicationsService.findOneBySlug(publicationInput.slug)) ||
-      (await this.publicationsService.findOneById(publicationInput.id));
-
-    // If a publication with the same slug or ID already exists, throw an error
-    // A publication can only be created if the slug and ID are unique
-    if (existingPublication) {
-      throw new BadRequestException(`Publication already exists`);
-    }
-
-    // Check if each category ID in the publicationInput exists
-    const categories = await this.categoriesService.findAllByIds(
-      publicationInput.categories,
-    );
-
-    // If the number of categories returned does not match the number of categories in the publicationInput, throw an error
-    if (categories.length !== publicationInput.categories.length) {
-      throw new Error('One or more categories do not exist');
-    }
-
     const publication = await this.publicationsService.create(publicationInput);
 
     return publication;
   }
 
-  @Mutation(() => Boolean)
-  async removePublication(@Args() args: PublicationsArgs): Promise<Boolean> {
+  @Mutation(() => PublicationEntity)
+  async removePublication(
+    @Args() args: PublicationsArgs,
+  ): Promise<PublicationEntity> {
     const { id } = args;
 
     return await this.publicationsService.removeOneById(id);

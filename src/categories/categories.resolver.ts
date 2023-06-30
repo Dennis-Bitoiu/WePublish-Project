@@ -6,6 +6,8 @@ import { CategoriesArgs } from './dto/categories.args';
 import { NewCategoryInput } from './dto/category.input';
 import { UpdateCategoryInput } from './dto/category.update';
 import { Category } from './models/category.model';
+import { CategoryEntity } from './category.entity';
+import { categories } from '../../data/categories';
 
 @Resolver((of) => Category)
 export class CategoriesResolver {
@@ -18,14 +20,14 @@ export class CategoriesResolver {
     return this.categoriesService.findAll();
   }
 
-  @Query((returns) => Category, { name: 'category' })
-  async getCategory(@Args() args: CategoriesArgs): Promise<Category> {
+  @Query((returns) => CategoryEntity, { name: 'category' })
+  async getCategory(@Args() args: CategoriesArgs): Promise<CategoryEntity> {
     try {
       // Destructure ID from args
       const { id } = args;
+
       // Await for the promise to resolve
       const category = await this.categoriesService.findOneById(id);
-
       return category;
     } catch (error) {
       // If category is not found
@@ -50,8 +52,8 @@ export class CategoriesResolver {
     }
   }
 
-  @Mutation(() => Boolean)
-  async removeCategory(@Args() args: CategoriesArgs): Promise<Boolean> {
+  @Mutation(() => CategoryEntity)
+  async removeCategory(@Args() args: CategoriesArgs): Promise<CategoryEntity> {
     const { id } = args;
 
     try {

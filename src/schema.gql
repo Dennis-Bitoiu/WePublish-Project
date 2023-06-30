@@ -2,6 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type CategoryEntity {
+  id: ID!
+  name: String!
+  slug: String!
+  iconUrl: String!
+  activeFrom: String
+  activeUntil: String
+  createdAt: String!
+  updatedAt: String!
+}
+
 type Category {
   id: ID!
   name: String!
@@ -11,6 +22,16 @@ type Category {
   activeUntil: String
   createdAt: String!
   updatedAt: String!
+}
+
+type PublicationEntity {
+  id: ID!
+  slug: String!
+  name: String!
+  coverUrl: String!
+  publishFrom: String!
+  publishUntil: String!
+  categories: [String!]!
 }
 
 type Publication {
@@ -25,18 +46,18 @@ type Publication {
 
 type Query {
   categories: [Category!]!
-  category(id: String!): Category!
-  publications: [Publication!]!
-  publication(id: ID!): Publication!
+  category(id: String!): CategoryEntity!
+  publications: [PublicationEntity!]!
+  publication(id: ID!): PublicationEntity!
   publicationCategories(id: ID!): [Category!]!
 }
 
 type Mutation {
   createCategory(newCategoryData: NewCategoryInput!): Category!
-  removeCategory(id: String!): Boolean!
+  removeCategory(id: String!): CategoryEntity!
   updateCategory(id: String!, updateCategoryInput: UpdateCategoryInput!): Category!
-  createPublication(publicationInput: NewPublicationInput!): Publication!
-  removePublication(id: ID!): Boolean!
+  createPublication(publicationInput: NewPublicationInput!): PublicationEntity!
+  removePublication(id: ID!): PublicationEntity!
   updatePublication(id: ID!, updatePublicationInput: UpdatePublicationInput!): Publication!
 }
 
